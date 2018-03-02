@@ -160,9 +160,9 @@ sub x s t@(Var y)
     | otherwise     = t
 sub x s (App t1 t2) = App (sub x s t1) (sub x s t2)
 sub x s t@(Lam y t1)
-    | freeIn y s    = error "Invalid substitution!"
-    | x == y        = t
-    | otherwise     = Lam y (sub x s t1)
+    | not $ freeIn x t  = t
+    | freeIn y s        = error "Invalid substitution!"
+    | otherwise         = Lam y (sub x s t1)
 
 fill :: Context -> Term -> Term
 fill Hole t             = t
