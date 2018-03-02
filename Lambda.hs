@@ -9,6 +9,15 @@ module Lambda (
     t,
     omega,
     omega2,
+    true,
+    false,
+    pair,
+    iter,
+    numeral,
+    add,
+    mult,
+    expn,
+    predc,
     vars,
     varss,
     newvar,
@@ -81,6 +90,34 @@ omega = Lam "x" $ App (Var "x") (Var "x")
 
 omega2 :: Term
 omega2 = App omega omega
+
+true :: Term
+true = k
+
+false :: Term
+false = App k i
+
+pair :: Term -> Term -> Term
+pair t1 t2 = Lam "x" $ App (App (Var "x") t1) t2
+
+iter :: Int -> Term -> Term -> Term
+iter n f = head . drop n . iterate (App f)
+
+numeral :: Int -> Term
+numeral n = Lam "f" $ Lam "x" $ iter n (Var "f") (Var "x")
+
+add :: Term
+add = Lam "x" $ Lam "y" $ Lam "p" $ Lam "q" $ App (App (Var "x") (Var "p")) (App (App (Var "y") (Var "p")) (Var "q"))
+
+mult :: Term
+mult = Lam "x" $ Lam "y" $ Lam "z" $ App (Var "x") (App (Var "y") (Var "z"))
+
+expn :: Term
+expn = Lam "x" $ Lam "y" $ App (Var "y") (Var "x")
+
+predc :: Term
+predc = Lam "x" $ Lam "y" $ Lam "z" $ App (App (App (Var "x") dualsucc) (App k (Var "z"))) i
+    where dualsucc = Lam "p" $ Lam "q" $ App (Var "q") (App (Var "p") (Var "y"))
 
 vars :: Term -> Set.Set Name
 vars (Var x)        = Set.singleton x
