@@ -56,7 +56,7 @@ instance Eq Term where
 
 instance Show Term where
     show (Var x)        = x
-    show (App t1 t2)    = "(" ++ show t1 ++ show t2 ++ ")"
+    show (App t1 t2)    = "(" ++ show t1 ++ " " ++ show t2 ++ ")"
     show (Lam x t)      = "(\\" ++ x ++ "->" ++ show t ++ ")"
 
 data Context = Hole | CVar Name | CApp Context Context | CLam Name Context
@@ -65,7 +65,7 @@ data Context = Hole | CVar Name | CApp Context Context | CLam Name Context
 instance Show Context where
     show Hole           = "[ ]"
     show (CVar x)       = x
-    show (CApp c1 c2)   = "(" ++ show c1 ++ show c2 ++ ")"
+    show (CApp c1 c2)   = "(" ++ show c1 ++ " " ++ show c2 ++ ")"
     show (CLam x c)     = "(\\" ++ x ++ "->" ++ show c ++ ")"
 
 i :: Term
