@@ -162,7 +162,15 @@ sub x s (App t1 t2) = App (sub x s t1) (sub x s t2)
 sub x s t@(Lam y t1)
     | not $ freeIn x t  = t
     | freeIn y s        = error "Invalid substitution!"
-    | otherwise         = Lam y (sub x s t1)
+    | otherwise         = Lam y $ sub x s t1
+
+sub' :: Name -> Term -> Term -> Term
+sub' x s t@(Lam y t1)
+    | not $ freeIn x t  = t
+    | freeIn y s        = Lam z $ sub' x s $ sub' y (Var z) t1
+    | otherwise         = Lam y $ sub' x s t1
+    where z = newvar $ Set.singleton t
+sub' x s t              = sub x s t
 
 fill :: Context -> Term -> Term
 fill Hole t             = t
@@ -181,7 +189,7 @@ normalize = head . dropWhile (not . normal) . reduceLeft
 
 reduceLeftOnce :: Term -> Term
 reduceLeftOnce t@(Var _)                = t
-reduceLeftOnce (App (Lam x t1) t2)      = sub x t2 t1
+reduceLeftOnce (App (Lam x t1) t2)      = sub' x t2 t1
 reduceLeftOnce (App t1 t2)
     | normal t1                         = App t1 (reduceLeftOnce t2)
     | otherwise                         = App (reduceLeftOnce t1) t2
