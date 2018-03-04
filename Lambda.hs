@@ -15,7 +15,7 @@ module Lambda (
     first,
     second,
     iter,
-    numeral,
+    num,
     add,
     mult,
     expn,
@@ -111,8 +111,8 @@ second = Lam "p" $ App (Var "p") false
 iter :: Int -> Term -> Term -> Term
 iter n f = head . drop n . iterate (App f)
 
-numeral :: Int -> Term
-numeral n = Lam "f" $ Lam "x" $ iter n (Var "f") (Var "x")
+num :: Int -> Term
+num n = Lam "f" $ Lam "x" $ iter n (Var "f") (Var "x")
 
 add :: Term
 add = Lam "x" $ Lam "y" $ Lam "p" $ Lam "q" $ App (App (Var "x") (Var "p")) (App (App (Var "y") (Var "p")) (Var "q"))
