@@ -97,7 +97,7 @@ true :: Term
 true = k
 
 false :: Term
-false = App k i
+false = Lam "x" $ Lam "y" $ Var "y"
 
 pair :: Term
 pair = Lam "x" $ Lam "y" $ Lam "f" $ App (App (Var "f") (Var "x")) (Var "y")
