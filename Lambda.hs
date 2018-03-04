@@ -12,6 +12,8 @@ module Lambda (
     true,
     false,
     pair,
+    first,
+    second,
     iter,
     numeral,
     add,
@@ -97,8 +99,14 @@ true = k
 false :: Term
 false = App k i
 
-pair :: Term -> Term -> Term
-pair t1 t2 = Lam "x" $ App (App (Var "x") t1) t2
+pair :: Term
+pair = Lam "x" $ Lam "y" $ Lam "f" $ App (App (Var "f") (Var "x")) (Var "y")
+
+first :: Term
+first = Lam "p" $ App (Var "p") true
+
+second :: Term
+second = Lam "p" $ App (Var "p") false
 
 iter :: Int -> Term -> Term -> Term
 iter n f = head . drop n . iterate (App f)
