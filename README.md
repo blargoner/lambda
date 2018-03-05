@@ -90,11 +90,11 @@ The term being substituted must be free for substitution!
 Beta-reducing a term (one step, leftmost):
 
 ```
-> t = Lam "f" $ App (Lam "x" $ Var "x") (Var "f")
+> t = Lam "x" $ App (Lam "y" $ Var "y") (Var "x")
 > t
-(\f->((\x->x) f))
+(\x->((\y->y) x))
 > reduceLeftOnce t
-(\f->f)
+(\x->x)
 ```
 
 Beta-reduction performs alpha-conversion if necessary.
