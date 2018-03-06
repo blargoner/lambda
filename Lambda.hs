@@ -14,12 +14,13 @@ module Lambda (
     pair,
     first,
     second,
-    iter,
     num,
     add,
     mult,
     expn,
     predc,
+    app,
+    iter,
     vars,
     varss,
     newvar,
@@ -108,9 +109,6 @@ first = Lam "p" $ App (Var "p") true
 second :: Term
 second = Lam "p" $ App (Var "p") false
 
-iter :: Int -> Term -> Term -> Term
-iter n f = head . drop n . iterate (App f)
-
 num :: Int -> Term
 num n = Lam "f" $ Lam "x" $ iter n (Var "f") (Var "x")
 
@@ -126,6 +124,12 @@ expn = Lam "x" $ Lam "y" $ App (Var "y") (Var "x")
 predc :: Term
 predc = Lam "x" $ Lam "y" $ Lam "z" $ App (App (App (Var "x") dualsucc) (App k (Var "z"))) i
     where dualsucc = Lam "p" $ Lam "q" $ App (Var "q") (App (Var "p") (Var "y"))
+
+app :: [Term] -> Term
+app = foldl1 (\v t -> App v t)
+
+iter :: Int -> Term -> Term -> Term
+iter n f = head . drop n . iterate (App f)
 
 vars :: Term -> Set.Set Name
 vars (Var x)        = Set.singleton x
