@@ -155,6 +155,8 @@ Turing's theta combinator (if you haven't redefined `t`):
 True
 ```
 
+For an explanation of these combinators, see [here](https://github.com/blargoner/math-y).
+
 ### Omega
 
 ```
